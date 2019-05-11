@@ -1,4 +1,4 @@
-package de.tweam.matchingserver.matching;
+package de.tweam.matchingserver.matching.scores;
 
 import de.tweam.matchingserver.data.User;
 import de.tweam.matchingserver.twitter.tweets.TweetContentReader;
