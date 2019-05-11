@@ -2,7 +2,6 @@ package de.tweam.matchingserver.data;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "tbl_team")
@@ -11,21 +10,25 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    List<User> teamUsers;
+    List<Person> teamPeople;
 
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    User teamFor;
+    Person teamFor;
 
-    public Team(User teamFor, List members) {
-        this.teamUsers = members;
+    public Team(){
+
+    }
+
+    public Team(Person teamFor, List members) {
+        this.teamPeople = members;
         this.teamFor = teamFor;
     }
 
-    public List<User> getTeamUsers() {
-        return teamUsers;
+    public List<Person> getTeamPeople() {
+        return teamPeople;
     }
 
-    public User getTeamFor() {
+    public Person getTeamFor() {
         return teamFor;
     }
 

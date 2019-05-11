@@ -1,6 +1,6 @@
 package de.tweam.matchingserver.matching.scores;
 
-import de.tweam.matchingserver.data.User;
+import de.tweam.matchingserver.data.Person;
 import de.tweam.matchingserver.twitter.tweets.TweetContentReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,9 +21,9 @@ public class TweetContentUserScorer implements UserScorer {
     }
 
     @Override
-    public double getUserScore(User oneUser, User otherUser) throws TwitterException {
-        List<String> oneUserTweetContents = tweetContentReader.readTweetContents(oneUser.getTwitterHandle());
-        List<String> otherUserTweetContents = tweetContentReader.readTweetContents(otherUser.getTwitterHandle());
+    public double getUserScore(Person onePerson, Person otherPerson) throws TwitterException {
+        List<String> oneUserTweetContents = tweetContentReader.readTweetContents(onePerson.getTwitterHandle());
+        List<String> otherUserTweetContents = tweetContentReader.readTweetContents(otherPerson.getTwitterHandle());
 
         if (oneUserTweetContents.isEmpty() || otherUserTweetContents.isEmpty()) {
             return -1;

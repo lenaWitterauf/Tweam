@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tbl_user")
-public class User {
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,11 +21,11 @@ public class User {
     @Column(name="userkeywords")
     private List<String> userKeywords;
 
-    public User() {
+    public Person() {
         userKeywords = new ArrayList<>();
     }
 
-    public User(String name, String twitterHandle, List<String> userKeyWords) {
+    public Person(String name, String twitterHandle, List<String> userKeyWords) {
         this.userName = name;
         this.twitterHandle = twitterHandle;
         this.userKeywords = userKeyWords;
@@ -55,8 +55,8 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id);
+        Person person = (Person) o;
+        return Objects.equals(id, person.id);
     }
 
     @Override

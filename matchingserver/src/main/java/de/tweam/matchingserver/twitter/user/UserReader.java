@@ -16,8 +16,8 @@ public class UserReader {
         this.twitterProvider = twitterProvider;
     }
 
-    public User read(String username) throws TwitterException {
+    public User read(String handle) throws TwitterException {
         Twitter twitter = twitterProvider.getTwitterInstance();
-        return twitter.showUser(username);
+        return twitter.showUser(handle);
     }
 }

@@ -1,6 +1,6 @@
 package de.tweam.matchingserver.matching.scores;
 
-import de.tweam.matchingserver.data.User;
+import de.tweam.matchingserver.data.Person;
 import de.tweam.matchingserver.twitter.follower.FollowingsReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,9 +19,9 @@ public class FollowerUserScorer implements UserScorer {
     }
 
     @Override
-    public double getUserScore(User oneUser, User otherUser) throws TwitterException {
-        Set<Long> oneUserFollowings = followingsReader.read(oneUser.getTwitterHandle());
-        Set<Long> otherUserFollowings = followingsReader.read(otherUser.getTwitterHandle());
+    public double getUserScore(Person onePerson, Person otherPerson) throws TwitterException {
+        Set<Long> oneUserFollowings = followingsReader.read(onePerson.getTwitterHandle());
+        Set<Long> otherUserFollowings = followingsReader.read(otherPerson.getTwitterHandle());
 
         if (oneUserFollowings.isEmpty() || otherUserFollowings.isEmpty()) {
             return -1;
