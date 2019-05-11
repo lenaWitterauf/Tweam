@@ -1,6 +1,7 @@
 import { TeamInterface } from "../interfaces/Team.interface";
 import { UserInterface } from "../interfaces/User.interface";
 import { ServerTeam } from "./ServerTeam.interface";
+import { ServerUser } from "./ServerUser.interface";
 
 interface User {
 	twitterHandle: string;
@@ -20,13 +21,13 @@ class NetworkService {
 			return undefined;
 		}
 
-		const createdUser = await response.json();
+		const createdUser: ServerUser = await response.json();
 		return {
 			id: createdUser.id,
 			name: createdUser.userName,
 			twitterHandle: createdUser.twitterHandle,
 			tokens: createdUser.userKeywords,
-			profilePicUrl: '',
+			profilePicUrl: createdUser.imageUrl,
 		};
 	}
 
@@ -44,19 +45,12 @@ class NetworkService {
 		const team: ServerTeam = await response.json();
 		return {
 			id: team.id,
-			for: {
-				id: team.teamFor.id,
-				name: team.teamFor.userName,
-				twitterHandle: team.teamFor.twitterHandle,
-				tokens: team.teamFor.userKeywords,
-				profilePicUrl: team.teamFor.imageUrl,
-			},
 			members: team.teamPeople.map(user => ({
 				id: user.id,
 				name: user.userName,
 				twitterHandle: user.twitterHandle,
 				tokens: user.userKeywords,
-				profilePicUrl: '',
+				profilePicUrl: user.imageUrl,
 			})),
 		};
 	}
@@ -71,19 +65,12 @@ class NetworkService {
 		const teams: ServerTeam[] = await response.json();
 		return teams.map(team => ({
 			id: team.id,
-			for: {
-				id: team.teamFor.id,
-				name: team.teamFor.userName,
-				twitterHandle: team.teamFor.twitterHandle,
-				tokens: team.teamFor.userKeywords,
-				profilePicUrl: '',
-			},
 			members: team.teamPeople.map(user => ({
 				id: user.id,
 				name: user.userName,
 				twitterHandle: user.twitterHandle,
 				tokens: user.userKeywords,
-				profilePicUrl: '',
+				profilePicUrl: user.imageUrl,
 			})),
 		}));
 	}

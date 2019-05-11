@@ -4,5 +4,4 @@ export interface TeamInterface {
 	id: number;
 	name?: string;
 	members: UserInterface[];
-	for: UserInterface;
 }
