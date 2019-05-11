@@ -3,12 +3,11 @@ package de.tweam.matchingserver.api;
 
 import de.tweam.matchingserver.api.ApiExceptionHandler.ApiException;
 import de.tweam.matchingserver.data.*;
+import de.tweam.matchingserver.matching.UserMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import twitter4j.TwitterException;
 
-import java.awt.*;
 import java.util.List;
 
 @RestController()
@@ -20,6 +19,8 @@ public class DataController {
     private PersonRepository personRepository;
     @Autowired
     private UserDataService userDataService;
+    @Autowired
+    private UserMatcher userMatcher;
 
     @GetMapping("/team/all")
     private List<Team> all() {
@@ -58,10 +59,16 @@ public class DataController {
         } catch (TwitterException e) {
             if (e.resourceNotFound()) {
                 throw new ApiException("User-Handle not Found");
-            }else{
+            } else {
                 throw e;
             }
         }
 
     }
+
+    @RequestMapping(path = "/remap")
+    public void remap(@RequestParam(defaultValue = "3", name = "size") int size) {
+        userMatcher.calculateTeams(personRepository.findAll(), size);
+    }
+
 }
