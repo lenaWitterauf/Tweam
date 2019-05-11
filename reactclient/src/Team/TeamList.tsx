@@ -1,8 +1,8 @@
+import { List, ListItem } from '@material-ui/core';
 import * as React from 'react';
-import { List, ListItem, Button } from '@material-ui/core';
-import { TeamListItem } from './TeamListItem';
 import { TeamInterface } from '../interfaces/Team.interface';
 import { networkService } from '../Network/NetworkService';
+import { TeamListItem } from './TeamListItem';
 
 export interface TeamListProps {
 	teams: TeamInterface[];

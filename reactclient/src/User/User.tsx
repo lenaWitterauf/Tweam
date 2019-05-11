@@ -17,7 +17,7 @@ export function User(user: UserInterface) {
 		<Link href={profileUrl} classes={linkClasses}>
 			<Card>
 				<CardContent classes={cardClasses}>
-					<img src={user.profilePicUrl}/>
+					<img src={user.profilePicUrl} alt="profile pic" />
 					<Typography>{user.name}</Typography>
 				</CardContent>
 			</Card>

@@ -1,13 +1,12 @@
-import React from 'react';
-import { AppBar, Link, Paper, Toolbar, Button, MuiThemeProvider, Backdrop } from '@material-ui/core';
+import { AppBar, Button, Link, MuiThemeProvider, Paper, Toolbar } from '@material-ui/core';
 import GroupIcon from '@material-ui/icons/Group';
+import React from 'react';
 import { BrowserRouter as Router, Link as RouteLink, Route } from 'react-router-dom';
 import { AuthProvider } from './Auth/AuthContext';
 import { AuthService } from './Auth/AuthService';
-import { TeamList } from './Team/TeamList';
 import { networkService } from './Network/NetworkService';
 import { Register } from './Register/Register';
-import { TeamInterface } from './interfaces/Team.interface';
+import { TeamList } from './Team/TeamList';
 import { darkTheme } from './themes/dark';
 
 function Index() {
