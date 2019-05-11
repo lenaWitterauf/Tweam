@@ -1,17 +1,27 @@
 package de.tweam.matchingserver.data;
 
-import java.util.HashSet;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
+@Entity
+@Table(name = "tbl_team")
 public class Team {
-    Set<User> teamUsers;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    List<User> teamUsers;
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     User teamFor;
-    public Team(User teamFor, Set members){
+
+    public Team(User teamFor, List members) {
         this.teamUsers = members;
         this.teamFor = teamFor;
     }
 
-    public Set<User> getTeamUsers() {
+    public List<User> getTeamUsers() {
         return teamUsers;
     }
 
