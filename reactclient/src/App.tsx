@@ -6,6 +6,7 @@ import { AuthProvider } from './Auth/AuthContext';
 import { AuthService } from './Auth/AuthService';
 import { TeamList } from './Team/TeamList';
 import { TeamInterface } from './interfaces/Team.interface';
+import { NetworkService } from './NetworkService';
 
 function Index() {
   return <h2>Home</h2>;
@@ -19,11 +20,14 @@ const MyLink = (props: { href?: string }): React.ReactElement => <RouteLink to={
 
 export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 	private readonly authService = new AuthService();
+	private readonly networkService = new NetworkService();
 
 	state = { isLoggedIn: false };
 	
 	componentDidMount() {
 		this.authService.registerListener(this);
+
+		this.networkService.getAllTeams();
 	}
 
 	componentWillUnmount() {
