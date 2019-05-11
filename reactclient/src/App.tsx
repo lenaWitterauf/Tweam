@@ -6,6 +6,8 @@ import { AuthProvider } from './Auth/AuthContext';
 import { AuthService } from './Auth/AuthService';
 import { TeamList } from './Team/TeamList';
 import { networkService } from './Network/NetworkService';
+import { Register } from './Register/Register';
+import { TeamInterface } from './interfaces/Team.interface';
 
 function Index() {
   return <h2>Home</h2>;
@@ -54,8 +56,8 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 							<Route path="/" exact component={Index} />
 							<Route path="/teams" component={TeamList} />
 							<Route path="/team/:twitterHandle" component={Users} />
-
-							<Button onClick={() => {
+                            <Route path="/register"  component={Register} />
+                            <Button onClick={() => {
 								networkService.createUser({
 									twitterHandle: 'foo',
 									tokens: ['foo', 'bar'],

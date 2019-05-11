@@ -7,7 +7,7 @@ interface User {
 	tokens: string[];
 }
 
-const baseUrl = 'http://local.knuddels.de:8080'
+const baseUrl = 'http://localhost:8080'
 
 class NetworkService {
 	async createUser(user: User): Promise<UserInterface | undefined> {
