@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import twitter4j.TwitterException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController()
 public class DataController {
@@ -29,9 +30,9 @@ public class DataController {
 
     @GetMapping("/team/{handle}")
     @ExceptionHandler(ApiException.class)
-    private Team teambyHandle(@PathVariable String handle) {
-        Team firstByTeamFor_twitterHandle = teamRepository.findFirstByTeamFor_TwitterHandle(handle);
-        if (firstByTeamFor_twitterHandle == null) {
+    private Team teamByHandle(@PathVariable String handle) {
+        Optional<Team> team = teamRepository.findAll().stream().filter(team1 -> team1.getTeamPeople().stream().anyMatch(person -> person.getTwitterHandle().equals(handle))).findAny();
+        if (!team.isPresent()) {
             boolean userExist = personRepository.findFirstByTwitterHandle(handle) != null;
             if (userExist) {
                 throw new ApiException("Person has no Test");
@@ -39,7 +40,7 @@ public class DataController {
                 throw new ApiException("Person Handle is not registered");
             }
         }
-        return firstByTeamFor_twitterHandle;
+        return team.get();
     }
 
     @GetMapping("/user/{handle}")
@@ -71,5 +72,4 @@ public class DataController {
         teamRepository.deleteAll();
         userMatcher.calculateTeams(personRepository.findAll(), size);
     }
-
 }

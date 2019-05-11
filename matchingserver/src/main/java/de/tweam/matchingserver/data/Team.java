@@ -14,23 +14,15 @@ public class Team {
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private List<Person> teamPeople;
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    private Person teamFor;
-
     public Team(){
     }
 
-    public Team(Person teamFor, List<Person> members) {
+    public Team( List<Person> members) {
         this.teamPeople = members;
-        this.teamFor = teamFor;
     }
 
     public List<Person> getTeamPeople() {
         return teamPeople;
-    }
-
-    public Person getTeamFor() {
-        return teamFor;
     }
 
 
