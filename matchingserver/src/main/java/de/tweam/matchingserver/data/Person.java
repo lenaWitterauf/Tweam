@@ -21,6 +21,9 @@ public class Person {
 
     private String imageUrl;
 
+    @ColumnDefault("-1")
+    private long statusId;
+
     @ColumnDefault("0")
     private long lastUpdateTimestamp;
 
@@ -106,6 +109,23 @@ public class Person {
         this.userTweets = userTweets;
     }
 
+
+    public long getLastUpdateTimestamp() {
+        return lastUpdateTimestamp;
+    }
+
+    public void setLastUpdateTimestamp(long lastUpdateTimestamp) {
+        this.lastUpdateTimestamp = lastUpdateTimestamp;
+    }
+
+    public long getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(long statusId) {
+        this.statusId = statusId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -119,11 +139,4 @@ public class Person {
         return Objects.hash(id);
     }
 
-    public long getLastUpdateTimestamp() {
-        return lastUpdateTimestamp;
-    }
-
-    public void setLastUpdateTimestamp(long lastUpdateTimestamp) {
-        this.lastUpdateTimestamp = lastUpdateTimestamp;
-    }
 }

@@ -7,12 +7,14 @@ import de.tweam.matchingserver.data.TeamRepository;
 import de.tweam.matchingserver.matching.scores.PersonScorer;
 import de.tweam.matchingserver.twitter.follower.FollowingsReader;
 import de.tweam.matchingserver.twitter.tweets.TweetContentReader;
+import de.tweam.matchingserver.twitter.user.UserReader;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import twitter4j.Status;
 import twitter4j.TwitterException;
 
 import java.util.*;
@@ -28,6 +30,7 @@ public class UserMatcher {
 
     private final TweetContentReader tweetContentReader;
     private final FollowingsReader followingsReader;
+    private final UserReader userReader;
 
     private final PersonRepository personRepository;
 
@@ -35,12 +38,13 @@ public class UserMatcher {
     @Autowired
     public UserMatcher(@Qualifier("combinedPersonScorer") PersonScorer personScorer,
                        TeamRepository teamRepository, PersonRepository personRepository,
-                       TweetContentReader tweetContentReader, FollowingsReader followingsReader) {
+                       TweetContentReader tweetContentReader, FollowingsReader followingsReader, UserReader userReader) {
         this.personScorer = personScorer;
         this.teamRepository = teamRepository;
         this.tweetContentReader = tweetContentReader;
         this.followingsReader = followingsReader;
         this.personRepository = personRepository;
+        this.userReader = userReader;
     }
 
     public List<Team> calculateTeams(List<Person> personsToMatch, int teamSize) {
@@ -156,6 +160,10 @@ public class UserMatcher {
                 try {
                     person.setUserTweets(tweetContentReader.readTweetContents(person.getTwitterHandle()));
                     person.setUserFollowings(new ArrayList<>(followingsReader.read(person.getTwitterHandle())));
+                    Status status = userReader.read(person.getTwitterHandle()).getStatus();
+                    if (status != null) {
+                        person.setStatusId(status.getId());
+                    }
                     person.setLastUpdateTimestamp(currentTimestamp);
                     return personRepository.saveAndFlush(person);
                 } catch (TwitterException exception) {
