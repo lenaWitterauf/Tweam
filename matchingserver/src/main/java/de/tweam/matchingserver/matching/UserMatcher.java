@@ -48,7 +48,8 @@ public class UserMatcher {
             }
 
             if (!teamsPerPerson.containsKey(firstPerson) && !teamsPerPerson.containsKey(otherPerson)) {
-                Team team = teamRepository.saveAndFlush(new Team(firstPerson, new ArrayList<>()));
+                Team team = teamRepository.saveAndFlush(new Team(new ArrayList<>()));
+                team.getTeamPeople().add(firstPerson);
                 teamsPerPerson.put(firstPerson, team);
                 teamsCreated++;
             }
