@@ -1,12 +1,11 @@
 import React from 'react';
-import { AppBar, Link, Paper, Toolbar } from '@material-ui/core';
+import { AppBar, Link, Paper, Toolbar, Button } from '@material-ui/core';
 import GroupIcon from '@material-ui/icons/Group';
 import { BrowserRouter as Router, Link as RouteLink, Route } from 'react-router-dom';
 import { AuthProvider } from './Auth/AuthContext';
 import { AuthService } from './Auth/AuthService';
 import { TeamList } from './Team/TeamList';
-import { TeamInterface } from './interfaces/Team.interface';
-import { NetworkService } from './NetworkService';
+import { networkService } from './Network/NetworkService';
 
 function Index() {
   return <h2>Home</h2>;
@@ -20,14 +19,11 @@ const MyLink = (props: { href?: string }): React.ReactElement => <RouteLink to={
 
 export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 	private readonly authService = new AuthService();
-	private readonly networkService = new NetworkService();
 
 	state = { isLoggedIn: false };
 	
 	componentDidMount() {
 		this.authService.registerListener(this);
-
-		this.networkService.getAllTeams();
 	}
 
 	componentWillUnmount() {
@@ -56,37 +52,19 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 
 						<Paper>
 							<Route path="/" exact component={Index} />
-							<Route path="/teams" render={this.renderTeamList} />
+							<Route path="/teams" component={TeamList} />
 							<Route path="/team/:twitterHandle" component={Users} />
+
+							<Button onClick={() => {
+								networkService.createUser({
+									twitterHandle: 'foo',
+									tokens: ['foo', 'bar'],
+								})
+							}}>Register</Button>
 						</Paper>
 					</div>
 				</Router>
 			</AuthProvider>
 		);
-	}
-
-	private readonly renderTeamList = () => {
-		const teams: TeamInterface[] = [
-			{ id: 1, members: [
-				{
-					id: 0,
-					name: 'robeeert',
-					profilePicUrl: 'https://pbs.twimg.com/profile_images/1091708094214795265/lm8MLEb3_400x400.jpg',
-					tokens: [],
-					twitterHandle: 'r0b3333rt'
-				},
-				{
-					id: 1,
-					name: 'Manfred Bausch',
-					profilePicUrl: 'https://pbs.twimg.com/profile_images/761559147892596736/7vBhzxZX_400x400.jpg',
-					tokens: [],
-					twitterHandle: 'ensoniq23'
-				},
-			], name: 'team 1' },
-			{ id: 2, members: [], name: 'team 2' },
-			{ id: 3, members: [], name: 'team 3' },
-		];
-
-		return <TeamList teams={teams} />
 	}
 }
