@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { AppBar, Link, Paper, Toolbar } from '@material-ui/core';
+import { BrowserRouter as Router, Link as RouteLink, Route } from 'react-router-dom';
 
 function Index() {
   return <h2>Home</h2>;
@@ -13,27 +14,25 @@ function Users() {
   return <h2>Users</h2>;
 }
 
+const MyLink = (props: { href?: string }): React.ReactElement => <RouteLink to={props.href || 'foo'} {...props}/>
+
 function AppRouter() {
   return (
     <Router>
       <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about/">About</Link>
-            </li>
-            <li>
-              <Link to="/users/">Users</Link>
-            </li>
-          </ul>
-        </nav>
+		<AppBar position="relative">
+			<Toolbar>
+				<Link variant="h5" component={MyLink} href="/home" color="inherit">Tweam</Link>
+				<div style={{ flexGrow: 1 }}/>
+				<Link component={MyLink} href="/about" color="inherit">About</Link>
+			</Toolbar>
+		</AppBar>
 
-        <Route path="/" exact component={Index} />
-        <Route path="/about/" component={About} />
-        <Route path="/users/" component={Users} />
+		<Paper>
+			<Route path="/" exact component={Index} />
+			<Route path="/login" component={About} />
+			<Route path="/users/" component={Users} />
+		</Paper>
       </div>
     </Router>
   );
