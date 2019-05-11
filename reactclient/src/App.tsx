@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Link, Paper, Toolbar, Button } from '@material-ui/core';
+import { AppBar, Link, Paper, Toolbar, Button, MuiThemeProvider, Backdrop } from '@material-ui/core';
 import GroupIcon from '@material-ui/icons/Group';
 import { BrowserRouter as Router, Link as RouteLink, Route } from 'react-router-dom';
 import { AuthProvider } from './Auth/AuthContext';
@@ -8,6 +8,7 @@ import { TeamList } from './Team/TeamList';
 import { networkService } from './Network/NetworkService';
 import { Register } from './Register/Register';
 import { TeamInterface } from './interfaces/Team.interface';
+import { darkTheme } from './themes/dark';
 
 function Index() {
   return <h2>Home</h2>;
@@ -40,7 +41,7 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 		return (
 			<AuthProvider value={{ loggedIn: this.state.isLoggedIn }}>
 				<Router>
-					<div>
+					<MuiThemeProvider theme={darkTheme}>
 						<AppBar position="relative">
 							<Toolbar>
 								<Link variant="h5" component={MyLink} href="/home" color="inherit">Tweam</Link>
@@ -56,15 +57,15 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 							<Route path="/" exact component={Index} />
 							<Route path="/teams" component={TeamList} />
 							<Route path="/team/:twitterHandle" component={Users} />
-                            <Route path="/register"  component={Register} />
-                            <Button onClick={() => {
+							<Route path="/register"  component={Register} />
+							<Button onClick={() => {
 								networkService.createUser({
 									twitterHandle: 'foo',
 									tokens: ['foo', 'bar'],
 								})
 							}}>Register</Button>
 						</Paper>
-					</div>
+					</MuiThemeProvider>
 				</Router>
 			</AuthProvider>
 		);
