@@ -31,6 +31,10 @@ public class UserMatcher {
         int teamsCreated = 0;
         while (teamsPerPerson.size() < arrayPersonsToMatch.size()) {
             Pair<Integer, Integer> nextUserPairIndex = findNextLowestMaxUserIndex(matching);
+            if (nextUserPairIndex.getKey() == -1 || nextUserPairIndex.getValue() == -1) {
+                break;
+            }
+
             Person firstPerson = arrayPersonsToMatch.get(nextUserPairIndex.getKey());
             Person otherPerson = arrayPersonsToMatch.get(nextUserPairIndex.getValue());
             matching[nextUserPairIndex.getKey()][nextUserPairIndex.getValue()] = -1;
@@ -44,7 +48,8 @@ public class UserMatcher {
             }
 
             if (!teamsPerPerson.containsKey(firstPerson) && !teamsPerPerson.containsKey(otherPerson)) {
-                Team team = teamRepository.saveAndFlush(new Team(firstPerson, new ArrayList<>()));
+                Team team = teamRepository.saveAndFlush(new Team(new ArrayList<>()));
+                team.getTeamPeople().add(firstPerson);
                 teamsPerPerson.put(firstPerson, team);
                 teamsCreated++;
             }
