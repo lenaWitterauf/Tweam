@@ -2,12 +2,10 @@ package de.tweam.matchingserver.api;
 
 
 import de.tweam.matchingserver.api.ApiExceptionHandler.ApiException;
-import de.tweam.matchingserver.data.Person;
-import de.tweam.matchingserver.data.Team;
-import de.tweam.matchingserver.data.TeamRepository;
-import de.tweam.matchingserver.data.UserRepository;
+import de.tweam.matchingserver.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import twitter4j.TwitterException;
 
 import java.util.List;
 
@@ -17,7 +15,9 @@ public class DataController {
     @Autowired
     private TeamRepository teamRepository;
     @Autowired
-    private UserRepository userRepository;
+    private PersonRepository personRepository;
+    @Autowired
+    private UserDataService userDataService;
 
     @GetMapping("/team/all")
     private List<Team> all() {
@@ -29,7 +29,7 @@ public class DataController {
     private Team teambyHandle(@PathVariable String handle) {
         Team firstByTeamFor_twitterHandle = teamRepository.findFirstByTeamFor_TwitterHandle(handle);
         if (firstByTeamFor_twitterHandle == null) {
-            boolean userExist = userRepository.findFirstByTwitterHandle(handle) != null;
+            boolean userExist = personRepository.findFirstByTwitterHandle(handle) != null;
             if (userExist) {
                 throw new ApiException("Person has no Test");
             } else {
@@ -41,7 +41,7 @@ public class DataController {
 
     @GetMapping("/user/{handle}")
     private Person userByHandle(@PathVariable String handle) {
-        Person firstByTwitterHandle = userRepository.findFirstByTwitterHandle(handle);
+        Person firstByTwitterHandle = personRepository.findFirstByTwitterHandle(handle);
         if (firstByTwitterHandle == null) {
             throw new ApiException("No Person with this Handle is registered");
         }
@@ -50,7 +50,16 @@ public class DataController {
 
 
     @PostMapping("/user/create")
-    private Person createUser(@RequestBody CreateUser userToCreate){
-        return null;
+    private void createUser(@RequestBody CreateUser userToCreate) throws TwitterException {
+        try {
+            userDataService.createUser(userToCreate.handle, userToCreate.keywords);
+        } catch (TwitterException e) {
+            if (e.resourceNotFound()) {
+                throw new ApiException("User-Handle not Found");
+            }else{
+                throw e;
+            }
+        }
+
     }
 }

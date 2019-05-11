@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ApiExceptionHandler{
     @ResponseBody
-    @ExceptionHandler(ApiException.class)
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     String employeeNotFoundHandler(ApiException ex) {
         return ex.getMessage();
