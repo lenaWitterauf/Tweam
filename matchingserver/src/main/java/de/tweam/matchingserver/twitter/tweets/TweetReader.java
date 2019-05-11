@@ -18,9 +18,13 @@ public class TweetReader {
     }
 
     public List<Status> read(User user) throws TwitterException {
+        return read(user.getScreenName());
+    }
+
+    public List<Status> read(String twitterScreenName) throws TwitterException {
         Twitter twitter = twitterProvider.getTwitterInstance();
         Query query = new Query();
-        query.setQuery("from:" + user.getScreenName());
+        query.setQuery("from:" + twitterScreenName);
 
         List<Status> allTweets = new ArrayList<>();
         QueryResult result;

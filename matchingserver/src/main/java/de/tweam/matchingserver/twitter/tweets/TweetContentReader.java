@@ -14,6 +14,11 @@ public class TweetContentReader {
     @Autowired
     private TweetReader tweetReader;
 
+    public List<String> readTweetContents(String twitterScreenName) throws TwitterException {
+        List<Status> tweets = tweetReader.read(twitterScreenName);
+        return tweets.stream().map(Status::getText).collect(Collectors.toList());
+    }
+
     public List<String> readTweetContents(User user) throws TwitterException {
         List<Status> tweets = tweetReader.read(user);
         return tweets.stream().map(Status::getText).collect(Collectors.toList());
