@@ -1,5 +1,7 @@
 package de.tweam.matchingserver.data;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,9 @@ public class Person {
     private String twitterHandle;
 
     private String imageUrl;
+
+    @ColumnDefault("0")
+    private long lastUpdateTimestamp;
 
     @ElementCollection
     @CollectionTable(name="userKeywords", joinColumns=@JoinColumn(name="id"))
@@ -67,6 +72,10 @@ public class Person {
         return userKeywords.add(keyword);
     }
 
+    public void setUserKeywords(List<String> userKeywords) {
+        this.userKeywords = userKeywords;
+    }
+
     public List<String> getUserTweets() {
         return userTweets;
     }
@@ -104,5 +113,13 @@ public class Person {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public long getLastUpdateTimestamp() {
+        return lastUpdateTimestamp;
+    }
+
+    public void setLastUpdateTimestamp(long lastUpdateTimestamp) {
+        this.lastUpdateTimestamp = lastUpdateTimestamp;
     }
 }

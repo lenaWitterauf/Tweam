@@ -1,30 +1,50 @@
 package de.tweam.matchingserver.matching;
 
 import de.tweam.matchingserver.data.Person;
+import de.tweam.matchingserver.data.PersonRepository;
 import de.tweam.matchingserver.data.Team;
 import de.tweam.matchingserver.data.TeamRepository;
 import de.tweam.matchingserver.matching.scores.PersonScorer;
+import de.tweam.matchingserver.twitter.follower.FollowingsReader;
+import de.tweam.matchingserver.twitter.tweets.TweetContentReader;
 import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import twitter4j.TwitterException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class UserMatcher {
+    private static final Logger logger = LoggerFactory.getLogger(UserMatcher.class);
+    private static final long updateIntervalMillis = 1000 * 60 * 60 * 2;
+
     private final PersonScorer personScorer;
     private final TeamRepository teamRepository;
 
+    private final TweetContentReader tweetContentReader;
+    private final FollowingsReader followingsReader;
+
+    private final PersonRepository personRepository;
+
+
     @Autowired
-    public UserMatcher(@Qualifier("combinedPersonScorer") PersonScorer personScorer, TeamRepository teamRepository) {
+    public UserMatcher(@Qualifier("combinedPersonScorer") PersonScorer personScorer,
+                       TeamRepository teamRepository, PersonRepository personRepository,
+                       TweetContentReader tweetContentReader, FollowingsReader followingsReader) {
         this.personScorer = personScorer;
         this.teamRepository = teamRepository;
+        this.tweetContentReader = tweetContentReader;
+        this.followingsReader = followingsReader;
+        this.personRepository = personRepository;
     }
 
     public List<Team> calculateTeams(List<Person> personsToMatch, int teamSize) {
-        ArrayList<Person> arrayPersonsToMatch = new ArrayList<>(personsToMatch);
+        ArrayList<Person> arrayPersonsToMatch = new ArrayList<>(maybeUpdatePersons(personsToMatch));
         double[][] matching = calculatePerPersonMatchings(arrayPersonsToMatch);
         int numberOfTeams = (int) Math.ceil((double) personsToMatch.size() / teamSize);
         Map<Person, Team> teamsPerPerson = new HashMap<>();
@@ -116,9 +136,8 @@ public class UserMatcher {
                 double score;
                 try {
                     score = personScorer.getUserScore(person, otherPerson);
-                } catch (TwitterException e) {
-                    System.err.println("Error matching users!");
-                    e.printStackTrace();
+                } catch (TwitterException exception) {
+                    logger.error("Error matching users!", exception);
                     score = 0;
                 }
 
@@ -128,6 +147,23 @@ public class UserMatcher {
         }
 
         return matching;
+    }
+
+    private List<Person> maybeUpdatePersons(List<Person> persons) {
+        final long currentTimestamp = System.currentTimeMillis();
+        return persons.stream().map(person -> {
+            if (person.getLastUpdateTimestamp() + updateIntervalMillis < currentTimestamp) {
+                try {
+                    person.setUserTweets(tweetContentReader.readTweetContents(person.getTwitterHandle()));
+                    person.setUserFollowings(new ArrayList<>(followingsReader.read(person.getTwitterHandle())));
+                    person.setLastUpdateTimestamp(currentTimestamp);
+                    return personRepository.saveAndFlush(person);
+                } catch (TwitterException exception) {
+                    logger.error("Error when updating user", exception);
+                }
+            }
+            return person;
+        }).collect(Collectors.toList());
     }
 
 }

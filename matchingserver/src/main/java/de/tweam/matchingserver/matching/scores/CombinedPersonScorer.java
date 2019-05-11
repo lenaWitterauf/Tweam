@@ -1,12 +1,15 @@
 package de.tweam.matchingserver.matching.scores;
 
 import de.tweam.matchingserver.data.Person;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import twitter4j.TwitterException;
 
 @Component
 public class CombinedPersonScorer implements PersonScorer {
+    private static final Logger logger = LoggerFactory.getLogger(CombinedPersonScorer.class);
+
     private final FollowerPersonScorer followerPersonScorer;
     private final TweetContentPersonScorer tweetContentPersonScorer;
 
@@ -17,11 +20,11 @@ public class CombinedPersonScorer implements PersonScorer {
     }
 
     @Override
-    public double getUserScore(Person onePerson, Person otherPerson) throws TwitterException {
+    public double getUserScore(Person onePerson, Person otherPerson) {
         double tweetContentScore = tweetContentPersonScorer.getUserScore(onePerson, otherPerson);
         double followerPersonScore = followerPersonScorer.getUserScore(onePerson, otherPerson);
         if (tweetContentScore == -1 && followerPersonScore == -1) {
-            System.err.println("No information for both users :-(");
+            logger.error("No information for both users :-(");
             return 0;
         }
 

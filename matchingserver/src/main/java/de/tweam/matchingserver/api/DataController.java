@@ -13,24 +13,27 @@ import java.util.Optional;
 
 @RestController()
 public class DataController {
+    private final TeamRepository teamRepository;
+    private final PersonRepository personRepository;
+    private final UserDataService userDataService;
+    private final UserMatcher userMatcher;
 
     @Autowired
-    private TeamRepository teamRepository;
-    @Autowired
-    private PersonRepository personRepository;
-    @Autowired
-    private UserDataService userDataService;
-    @Autowired
-    private UserMatcher userMatcher;
+    public DataController(TeamRepository teamRepository, PersonRepository personRepository, UserDataService userDataService, UserMatcher userMatcher) {
+        this.teamRepository = teamRepository;
+        this.personRepository = personRepository;
+        this.userDataService = userDataService;
+        this.userMatcher = userMatcher;
+    }
 
     @GetMapping("/team/all")
-    private List<Team> all() {
+    public List<Team> all() {
         return teamRepository.findAll();
     }
 
     @GetMapping("/team/{handle}")
     @ExceptionHandler(ApiException.class)
-    private Team teamByHandle(@PathVariable String handle) {
+    public Team teamByHandle(@PathVariable String handle) {
         Optional<Team> team = teamRepository.findAll().stream().filter(team1 -> team1.getTeamPeople().stream().anyMatch(person -> person.getTwitterHandle().equals(handle))).findAny();
         if (!team.isPresent()) {
             boolean userExist = personRepository.findFirstByTwitterHandle(handle) != null;
@@ -44,7 +47,7 @@ public class DataController {
     }
 
     @GetMapping("/user/{handle}")
-    private Person userByHandle(@PathVariable String handle) {
+    public Person userByHandle(@PathVariable String handle) {
         Person firstByTwitterHandle = personRepository.findFirstByTwitterHandle(handle);
         if (firstByTwitterHandle == null) {
             throw new ApiException("No Person with this Handle is registered");
@@ -54,9 +57,9 @@ public class DataController {
 
 
     @PostMapping(path = "/user/create", consumes = "application/json")
-    private Person createUser(@RequestBody CreateUser userToCreate) throws TwitterException {
+    public Person createUser(@RequestBody CreateUser userToCreate) throws TwitterException {
         try {
-            return userDataService.createUser(userToCreate.handle, userToCreate.keywords);
+            return userDataService.createUser(userToCreate.handle, userToCreate.getKeywordsLowercase());
         } catch (TwitterException e) {
             if (e.resourceNotFound()) {
                 throw new ApiException("User-Handle not Found");
