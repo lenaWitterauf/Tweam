@@ -88,8 +88,14 @@ class NetworkService {
 		}));
 	}
 
-	async updateMatches() {
+	async updateMatches(): Promise<boolean> {
+		const response = await this.put('/remap', {});
 		
+		if (!response || !response.ok) {
+			return false;
+		}
+
+		return true;
 	}
 
 	private async get(endpoint: string): Promise<Response | undefined> {
