@@ -1,25 +1,34 @@
 package de.tweam.matchingserver.twitter.tweets;
 
-import org.springframework.stereotype.Service;
+import de.tweam.matchingserver.twitter.TwitterProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import twitter4j.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Component
 public class TweetReader {
-    public List<String> read(User user) throws TwitterException {
-        Twitter twitter = new TwitterFactory().getInstance();
+    private final TwitterProvider twitterProvider;
+
+    @Autowired
+    public TweetReader(TwitterProvider twitterProvider) {
+        this.twitterProvider = twitterProvider;
+    }
+
+    public List<Status> read(User user) throws TwitterException {
+        Twitter twitter = twitterProvider.getTwitterInstance();
         Query query = new Query();
         query.setQuery("from:" + user.getScreenName());
 
-        List<String> tweetContents = new ArrayList<>();
+        List<Status> allTweets = new ArrayList<>();
         QueryResult result;
         do {
             result = twitter.search(query);
-            result.getTweets().forEach(tweet -> tweetContents.add(tweet.getText()));
+            allTweets.addAll(result.getTweets());
         } while ((query = result.nextQuery()) != null);
 
-        return tweetContents;
+        return allTweets;
     }
 }
