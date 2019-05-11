@@ -4,9 +4,11 @@ package de.tweam.matchingserver.api;
 import de.tweam.matchingserver.api.ApiExceptionHandler.ApiException;
 import de.tweam.matchingserver.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import twitter4j.TwitterException;
 
+import java.awt.*;
 import java.util.List;
 
 @RestController()
@@ -49,10 +51,10 @@ public class DataController {
     }
 
 
-    @PostMapping("/user/create")
-    private void createUser(@RequestBody CreateUser userToCreate) throws TwitterException {
+    @PostMapping(path = "/user/create", consumes = "application/json")
+    private Person createUser(@RequestBody CreateUser userToCreate) throws TwitterException {
         try {
-            userDataService.createUser(userToCreate.handle, userToCreate.keywords);
+            return userDataService.createUser(userToCreate.handle, userToCreate.keywords);
         } catch (TwitterException e) {
             if (e.resourceNotFound()) {
                 throw new ApiException("User-Handle not Found");

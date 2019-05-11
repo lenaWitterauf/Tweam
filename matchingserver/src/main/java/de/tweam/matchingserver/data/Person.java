@@ -16,6 +16,8 @@ public class Person {
     @Column(unique = true)
     private String twitterHandle;
 
+    private String imageUrl;
+
     @ElementCollection
     @CollectionTable(name="userKeywords", joinColumns=@JoinColumn(name="id"))
     @Column(name="userkeywords")
@@ -25,9 +27,10 @@ public class Person {
         userKeywords = new ArrayList<>();
     }
 
-    public Person(String name, String twitterHandle, List<String> userKeyWords) {
+    public Person(String name, String twitterHandle, String imageUrl, List<String> userKeyWords) {
         this.userName = name;
         this.twitterHandle = twitterHandle;
+        this.imageUrl = imageUrl;
         this.userKeywords = userKeyWords;
     }
 
@@ -49,6 +52,10 @@ public class Person {
 
     public Long getId() {
         return id;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     @Override
