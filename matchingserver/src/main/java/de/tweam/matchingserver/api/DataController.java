@@ -68,6 +68,7 @@ public class DataController {
 
     @RequestMapping(path = "/remap")
     public void remap(@RequestParam(defaultValue = "3", name = "size") int size) {
+        teamRepository.deleteAll();
         userMatcher.calculateTeams(personRepository.findAll(), size);
     }
 

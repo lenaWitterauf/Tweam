@@ -31,6 +31,10 @@ public class UserMatcher {
         int teamsCreated = 0;
         while (teamsPerPerson.size() < arrayPersonsToMatch.size()) {
             Pair<Integer, Integer> nextUserPairIndex = findNextLowestMaxUserIndex(matching);
+            if (nextUserPairIndex.getKey() == -1 || nextUserPairIndex.getValue() == -1) {
+                break;
+            }
+
             Person firstPerson = arrayPersonsToMatch.get(nextUserPairIndex.getKey());
             Person otherPerson = arrayPersonsToMatch.get(nextUserPairIndex.getValue());
             matching[nextUserPairIndex.getKey()][nextUserPairIndex.getValue()] = -1;

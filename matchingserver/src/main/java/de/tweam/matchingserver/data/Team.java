@@ -10,14 +10,14 @@ public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    List<Person> teamPeople;
+    private List<Person> teamPeople;
 
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    Person teamFor;
+    private Person teamFor;
 
     public Team(){
-
     }
 
     public Team(Person teamFor, List<Person> members) {
