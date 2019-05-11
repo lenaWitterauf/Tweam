@@ -7,7 +7,7 @@ export function TeamListItem(team: TeamInterface) {
 	return (
 		<Card>
 			<CardContent>
-				<Typography variant="h5" component="h5">{team.name}</Typography>
+				<Typography variant="h5" component="h5">Team {team.id}</Typography>
 				<Typography>Members:</Typography>
 				<List>
 					{team.members.map(user => (
