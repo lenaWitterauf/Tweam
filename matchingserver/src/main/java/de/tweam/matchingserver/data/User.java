@@ -44,4 +44,8 @@ public class User {
     public boolean addUserKeyword(String keyword) {
         return userKeywords.add(keyword);
     }
+
+    public Long getId() {
+        return id;
+    }
 }
