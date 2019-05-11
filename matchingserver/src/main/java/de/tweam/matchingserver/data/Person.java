@@ -20,8 +20,23 @@ public class Person {
 
     @ElementCollection
     @CollectionTable(name="userKeywords", joinColumns=@JoinColumn(name="id"))
-    @Column(name="userkeywords")
+    @Column(name = "userKeywords")
     private List<String> userKeywords;
+
+
+    @ElementCollection
+    @CollectionTable(name = "userTweets", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "userTweets", columnDefinition = "TEXT")
+    private List<String> userTweets;
+
+
+    @ElementCollection
+    @CollectionTable(name = "userFollowings", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "userFollowings")
+    private List<Long> userFollowings;
+
+
+
 
     public Person() {
         userKeywords = new ArrayList<>();
@@ -32,6 +47,8 @@ public class Person {
         this.twitterHandle = twitterHandle;
         this.imageUrl = imageUrl;
         this.userKeywords = userKeyWords;
+        this.userTweets = new ArrayList<>();
+        this.userFollowings = new ArrayList<>();
     }
 
     public String getUserName() {
@@ -50,12 +67,30 @@ public class Person {
         return userKeywords.add(keyword);
     }
 
+    public List<String> getUserTweets() {
+        return userTweets;
+    }
+
+    public List<Long> getUserFollowings() {
+        return userFollowings;
+    }
+
     public Long getId() {
         return id;
     }
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+
+    public void setUserFollowings(List<Long> userFollowings) {
+        this.userFollowings = userFollowings;
+    }
+
+
+    public void setUserTweets(List<String> userTweets) {
+        this.userTweets = userTweets;
     }
 
     @Override

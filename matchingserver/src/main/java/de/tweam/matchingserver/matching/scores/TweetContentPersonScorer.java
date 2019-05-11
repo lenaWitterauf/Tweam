@@ -1,29 +1,32 @@
 package de.tweam.matchingserver.matching.scores;
 
 import de.tweam.matchingserver.data.Person;
+import de.tweam.matchingserver.data.PersonRepository;
 import de.tweam.matchingserver.twitter.tweets.TweetContentReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import twitter4j.TwitterException;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class TweetContentPersonScorer implements PersonScorer {
     private final TweetContentReader tweetContentReader;
+    private final PersonRepository personRepository;
 
     @Autowired
-    public TweetContentPersonScorer(TweetContentReader tweetContentReader) {
+    public TweetContentPersonScorer(TweetContentReader tweetContentReader, PersonRepository personRepository) {
         this.tweetContentReader = tweetContentReader;
+        this.personRepository = personRepository;
     }
 
     @Override
     public double getUserScore(Person onePerson, Person otherPerson) throws TwitterException {
-        List<String> oneUserTweetContents = tweetContentReader.readTweetContents(onePerson.getTwitterHandle());
-        List<String> otherUserTweetContents = tweetContentReader.readTweetContents(otherPerson.getTwitterHandle());
+        maybeUpdateUserTweets(onePerson);
+        maybeUpdateUserTweets(otherPerson);
+
+        List<String> oneUserTweetContents = onePerson.getUserTweets();
+        List<String> otherUserTweetContents = otherPerson.getUserTweets();
 
         if (oneUserTweetContents.isEmpty() || otherUserTweetContents.isEmpty()) {
             return -1;
@@ -52,5 +55,13 @@ public class TweetContentPersonScorer implements PersonScorer {
         }
 
         return wordCount;
+    }
+
+
+    private void maybeUpdateUserTweets(Person person) throws TwitterException {
+        if (person.getUserTweets() == null || person.getUserTweets().isEmpty()) {
+            person.setUserTweets(new ArrayList<>(tweetContentReader.readTweetContents(person.getTwitterHandle())));
+            personRepository.saveAndFlush(person);
+        }
     }
 }
