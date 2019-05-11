@@ -1,5 +1,6 @@
 package de.tweam.matchingserver.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -25,19 +26,22 @@ public class Person {
 
     @ElementCollection
     @CollectionTable(name="userKeywords", joinColumns=@JoinColumn(name="id"))
-    @Column(name = "userKeywords")
+    @Column(name = "userKeywords", columnDefinition = "TEXT")
+    @JsonIgnore
     private List<String> userKeywords;
 
 
     @ElementCollection
     @CollectionTable(name = "userTweets", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "userTweets", columnDefinition = "TEXT")
+    @JsonIgnore
     private List<String> userTweets;
 
 
     @ElementCollection
     @CollectionTable(name = "userFollowings", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "userFollowings")
+    @JsonIgnore
     private List<Long> userFollowings;
 
 
