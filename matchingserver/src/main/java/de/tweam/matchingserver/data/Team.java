@@ -2,6 +2,7 @@ package de.tweam.matchingserver.data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tbl_team")
@@ -19,7 +20,7 @@ public class Team {
 
     }
 
-    public Team(Person teamFor, List members) {
+    public Team(Person teamFor, List<Person> members) {
         this.teamPeople = members;
         this.teamFor = teamFor;
     }
@@ -33,4 +34,16 @@ public class Team {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Team team = (Team) o;
+        return Objects.equals(id, team.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

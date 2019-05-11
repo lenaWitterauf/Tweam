@@ -10,11 +10,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class FollowerUserScorer implements UserScorer {
+public class FollowerPersonScorer implements PersonScorer {
     private final FollowingsReader followingsReader;
 
     @Autowired
-    public FollowerUserScorer(FollowingsReader followingsReader) {
+    public FollowerPersonScorer(FollowingsReader followingsReader) {
         this.followingsReader = followingsReader;
     }
 

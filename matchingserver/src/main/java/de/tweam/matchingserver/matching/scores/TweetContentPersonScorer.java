@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class TweetContentUserScorer implements UserScorer {
+public class TweetContentPersonScorer implements PersonScorer {
     private final TweetContentReader tweetContentReader;
 
     @Autowired
-    public TweetContentUserScorer(TweetContentReader tweetContentReader) {
+    public TweetContentPersonScorer(TweetContentReader tweetContentReader) {
         this.tweetContentReader = tweetContentReader;
     }
 
