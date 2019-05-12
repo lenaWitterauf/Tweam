@@ -4,11 +4,9 @@ import React from 'react';
 import { BrowserRouter as Router, Link as RouteLink, Route } from 'react-router-dom';
 import { AuthProvider } from './Auth/AuthContext';
 import { AuthService } from './Auth/AuthService';
-import { networkService } from './Network/NetworkService';
 import { Register } from './Register/Register';
 import { TeamList } from './Team/TeamList';
 import { darkTheme } from './themes/dark';
-import 'pure-react-carousel/dist/react-carousel.es.css';
 
 function Index() {
   return <h2>Home</h2>;
