@@ -1,26 +1,28 @@
-export interface AuthListener {
+interface AuthListener {
 	onAuthChange(loggedIn: boolean): void;
 }
 
-export class AuthService {
+class AuthService {
 	private readonly authListeners: AuthListener[] = [];
-	private _loggedIn = true;
+	private twitterHandle = '';
 
 	constructor() {
 		// TODO read cookie and initialize with corresponding state
 	}
 
-	login(): void {
-		this._loggedIn = true;
+	login(twitterHandle: string): void {
+		this.twitterHandle = twitterHandle;
 		this.authListeners.forEach(listener => listener.onAuthChange(true));
 	}
 	
 	logout(): void {
-		this._loggedIn = false;
+		this.twitterHandle = '';
 		this.authListeners.forEach(listener => listener.onAuthChange(false));
 	}
 
-	get loggedIn() { return this._loggedIn; }
+	get loggedIn() { return !!this.twitterHandle; }
+
+	get currentTwitterHandle() { return this.twitterHandle; }
 
 	registerListener(authListener: AuthListener): void {
 		this.authListeners.push(authListener);
@@ -33,3 +35,5 @@ export class AuthService {
 		}
 	}
 }
+
+export const authService = new AuthService();
