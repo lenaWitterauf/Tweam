@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Card, Typography, TextField, Button, Grid } from '@material-ui/core';
 import { authService } from '../Auth/AuthService';
+import { VerticalSpacer } from '../Spacer';
 
 export function Login(): React.ReactElement {
 	const [twitterHandle, setTwitterHandle] = React.useState('');
@@ -12,21 +13,23 @@ export function Login(): React.ReactElement {
 	return (
 		<Grid container justify="center">
 			<Grid item xs={10} sm={6}>
-				<Spacer height={50}/>
+				<VerticalSpacer height={50}/>
 				<Card style={{ flexDirection: 'column', display: 'flex' }}>
 					<Grid container justify="center">
 						<Grid item xl={9} style={{ flexDirection: 'column', display: 'flex' }}>
-							<Typography variant="h6" component="h3" style={{textAlign: 'center'}}>Login</Typography>
-							<Spacer height={20}/>
+							<VerticalSpacer height={20}/>
+							<Typography variant="h6" component="h3" style={{textAlign: 'center'}}>Come inside!</Typography>
+							<VerticalSpacer height={20}/>
 							<TextField
 								label="Twitter Handle"
 								value={twitterHandle}
 								onChange={(e) => { setTwitterHandle(e.target.value) }}
 								onSubmit={handleSubmit}
+								variant="outlined"
 							/>
-							<Spacer height={20}/>
+							<VerticalSpacer height={20}/>
 							<Button onSubmit={handleSubmit}>Login</Button>
-							<Spacer height={20}/>
+							<VerticalSpacer height={20}/>
 						</Grid>
 					</Grid>
 				</Card>
@@ -34,5 +37,3 @@ export function Login(): React.ReactElement {
 		</Grid>
 	);
 }
-
-const Spacer = ({height}: {height: number}) => <div style={{height: height}}/>
