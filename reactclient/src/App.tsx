@@ -9,6 +9,7 @@ import { networkService } from './Network/NetworkService';
 import { Register } from './Register/Register';
 import { TeamList } from './Team/TeamList';
 import { darkTheme } from './themes/dark';
+import { UserFetcher } from './User/UserFetcher';
 
 function Index() {
   return <h2>Home</h2>;
@@ -58,7 +59,7 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 							<Route path="/teams" component={TeamList} />
 							<Route path="/team/:twitterHandle" component={Users} />
 							<Route path="/register"  component={Register} />
-                            <Route path="/user/:twitterHandle" component={User}/>
+             <Route path="/user/:twitterHandle" component={UserFetcher}/>
 						</Paper>
 					</MuiThemeProvider>
 				</Router>

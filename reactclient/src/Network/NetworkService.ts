@@ -32,7 +32,20 @@ class NetworkService {
 	}
 
 	async getUserByHandle(twitterHandle: string): Promise<UserInterface | undefined> {
-		return this.get(`/user/${twitterHandle}`) as any;
+		const response = await this.get(`/user/${twitterHandle}`);
+
+		if (!response || !response.ok) {
+			return undefined;
+		}
+
+		const user: ServerUser = await response.json();
+		return {
+			id: user.id,
+			name: user.userName,
+			twitterHandle: user.twitterHandle,
+			tokens: user.userKeywords,
+			profilePicUrl: user.imageUrl,
+		};
 	}
 
 	async getTeamForUser(user: User): Promise<TeamInterface | undefined> {
