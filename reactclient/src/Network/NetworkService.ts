@@ -2,6 +2,7 @@ import { TeamInterface } from "../interfaces/Team.interface";
 import { UserInterface } from "../interfaces/User.interface";
 import { ServerTeam } from "./ServerTeam.interface";
 import { ServerUser } from "./ServerUser.interface";
+import { errorService } from "../ErrorService";
 
 interface User {
 	twitterHandle: string;
@@ -18,6 +19,7 @@ class NetworkService {
 		});
 
 		if (!response || !response.ok) {
+			this.handleBusinessError(response);
 			return undefined;
 		}
 
@@ -35,6 +37,7 @@ class NetworkService {
 		const response = await this.get(`/user/${twitterHandle}`);
 
 		if (!response || !response.ok) {
+			this.handleBusinessError(response);
 			return undefined;
 		}
 
@@ -52,6 +55,7 @@ class NetworkService {
 		const response = await this.get(`/team/${user.twitterHandle}`);
 
 		if (!response || !response.ok) {
+			this.handleBusinessError(response);
 			return undefined;
 		}
 
@@ -72,6 +76,7 @@ class NetworkService {
 		const response: Response | undefined = await this.get('/team/all');
 		
 		if (!response || !response.ok) {
+			this.handleBusinessError(response);
 			return undefined;
 		}
 
@@ -92,10 +97,26 @@ class NetworkService {
 		const response = await this.put('/remap', {});
 		
 		if (!response || !response.ok) {
+			this.handleBusinessError(response);
 			return false;
 		}
 
 		return true;
+	}
+
+	private async handleBusinessError(response: Response | undefined) {
+		if (!response) {
+			errorService.error('Unknown network error. Please try again!');
+			return;
+		}
+
+		if (!response.ok) {
+			const serverError = await response.text();
+			errorService.error(serverError);
+			return;
+		}
+
+		errorService.error('Unknown error. Please contact our team.');
 	}
 
 	private async get(endpoint: string): Promise<Response | undefined> {
@@ -118,7 +139,7 @@ class NetworkService {
 		}
 
 		try {
-			return fetch(`${baseUrl}${endpoint}`, {
+			return await fetch(`${baseUrl}${endpoint}`, {
 				method,
 				body,
 				headers: {
@@ -127,6 +148,7 @@ class NetworkService {
 			});
 		} catch (e) {
 			console.error(e);
+			errorService.error('Request failed. Please try again!')
 			return undefined;
 		}
 	}
