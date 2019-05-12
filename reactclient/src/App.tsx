@@ -1,4 +1,4 @@
-import { AppBar, Link, MuiThemeProvider, Paper, Toolbar } from '@material-ui/core';
+import { AppBar, Link, MuiThemeProvider, Paper, Toolbar, Button } from '@material-ui/core';
 import React from 'react';
 import { BrowserRouter as Router, Link as RouteLink, Route, Switch } from 'react-router-dom';
 import { authService } from './Auth/AuthService';
@@ -8,14 +8,18 @@ import { TeamList } from './Team/TeamList';
 import { darkTheme } from './themes/dark';
 import { UserFetcher } from './User/UserFetcher';
 import { About } from './About';
+import { errorService } from './ErrorService';
+import { ErrorSnackbar } from './Network/ErrorSnackbar';
 
 const NavLink = (props: { href?: string }): React.ReactElement => <RouteLink to={props.href || ''} {...props} style={{paddingRight: 5, paddingLeft: 5}} />
 
-export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
-	state = { isLoggedIn: false };
+export class App extends React.PureComponent<{}, { isLoggedIn: boolean, error: string | undefined }> {
+	state = { isLoggedIn: false, error: undefined };
+	private snackbarTimeout: any = undefined;
 
 	componentDidMount() {
 		authService.registerListener(this);
+		errorService.registerListener(this.handleError);
 	}
 
 	componentWillUnmount() {
@@ -24,6 +28,10 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 
 	readonly onAuthChange = (isLoggedIn: boolean) => {
 		this.setState({ isLoggedIn });
+	};
+
+	readonly handleError = (error: string) => {
+		this.setState({ error });
 	};
 
 	render() {
@@ -44,6 +52,8 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 						{!this.state.isLoggedIn && this.renderLoggedOutRoutes()}
 						<Route component={About}/>
 					</Switch>
+
+					<ErrorSnackbar open={!!this.state.error} onClose={() => this.setState({ error: undefined })} error={this.state.error || ''}/>
 				</MuiThemeProvider>
 			</Router>
 		);
