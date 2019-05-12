@@ -14,7 +14,7 @@ const linkClasses = {
 export function User(user: UserInterface) {
 	const profileUrl = `${twitterProfileBaseUrl}${user.twitterHandle}`;
 	return (
-		<Link href={profileUrl} classes={linkClasses}>
+		<Link href={profileUrl} classes={linkClasses} target="_blank">
 			<Card>
 				<CardContent classes={cardClasses}>
 					<img src={user.profilePicUrl} alt="profile pic" />
