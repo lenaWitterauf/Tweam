@@ -34,6 +34,10 @@ public class Team {
         return Objects.equals(id, team.id);
     }
 
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);

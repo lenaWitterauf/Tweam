@@ -5,9 +5,7 @@ import de.tweam.matchingserver.data.PersonRepository;
 import de.tweam.matchingserver.twitter.follower.FollowingsReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import twitter4j.TwitterException;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,10 +22,7 @@ public class FollowerPersonScorer implements PersonScorer {
     }
 
     @Override
-    public double getUserScore(Person onePerson, Person otherPerson) throws TwitterException {
-        maybeUpdateUserFollowings(onePerson);
-        maybeUpdateUserFollowings(otherPerson);
-
+    public double getUserScore(Person onePerson, Person otherPerson) {
         Set<Long> oneUserFollowings = new HashSet<>(onePerson.getUserFollowings());
         Set<Long> otherUserFollowings = new HashSet<>(otherPerson.getUserFollowings());
 
@@ -41,13 +36,6 @@ public class FollowerPersonScorer implements PersonScorer {
         ).collect(Collectors.toSet()).size() * 2;
 
         return (double) similarFollowingsCount / (double) allFollowingsCount;
-    }
-
-    private void maybeUpdateUserFollowings(Person person) throws TwitterException {
-        if (person.getUserFollowings() == null || person.getUserFollowings().isEmpty()) {
-            person.setUserFollowings(new ArrayList<>(followingsReader.read(person.getTwitterHandle())));
-            personRepository.saveAndFlush(person);
-        }
     }
 
 }

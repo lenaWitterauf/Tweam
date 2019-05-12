@@ -1,6 +1,7 @@
 package de.tweam.matchingserver.api;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CreateUser {
     String handle;
@@ -20,6 +21,10 @@ public class CreateUser {
 
     public List<String> getKeywords() {
         return keywords;
+    }
+
+    public List<String> getKeywordsLowercase() {
+        return keywords.stream().map(String::toLowerCase).collect(Collectors.toList());
     }
 
     public void setKeywords(List<String> keywords) {

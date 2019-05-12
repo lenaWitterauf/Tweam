@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
-    Logger logger = LoggerFactory.getLogger(ApiExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
     @ResponseBody
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String employeeNotFoundHandler(Exception ex) {
+    public String employeeNotFoundHandler(Exception ex) {
         logger.error("Error in Api:", ex);
         if(ex.getClass().equals(DataIntegrityViolationException.class)){
             ex =  new ApiException("Twitter-Handle is already registered");
@@ -25,8 +25,8 @@ public class ApiExceptionHandler {
     }
 
 
-    public static class ApiException extends RuntimeException {
-        public ApiException(String message) {
+    static class ApiException extends RuntimeException {
+        ApiException(String message) {
             super(message);
         }
     }

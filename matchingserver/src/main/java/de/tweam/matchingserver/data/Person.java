@@ -1,5 +1,8 @@
 package de.tweam.matchingserver.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,21 +21,30 @@ public class Person {
 
     private String imageUrl;
 
+    @ColumnDefault("-1")
+    private long statusId;
+
+    @ColumnDefault("0")
+    private long lastUpdateTimestamp;
+
     @ElementCollection
     @CollectionTable(name="userKeywords", joinColumns=@JoinColumn(name="id"))
-    @Column(name = "userKeywords")
+    @Column(name = "userKeywords", columnDefinition = "TEXT")
+    @JsonIgnore
     private List<String> userKeywords;
 
 
     @ElementCollection
     @CollectionTable(name = "userTweets", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "userTweets", columnDefinition = "TEXT")
+    @JsonIgnore
     private List<String> userTweets;
 
 
     @ElementCollection
     @CollectionTable(name = "userFollowings", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "userFollowings")
+    @JsonIgnore
     private List<Long> userFollowings;
 
 
@@ -67,6 +79,10 @@ public class Person {
         return userKeywords.add(keyword);
     }
 
+    public void setUserKeywords(List<String> userKeywords) {
+        this.userKeywords = userKeywords;
+    }
+
     public List<String> getUserTweets() {
         return userTweets;
     }
@@ -93,6 +109,23 @@ public class Person {
         this.userTweets = userTweets;
     }
 
+
+    public long getLastUpdateTimestamp() {
+        return lastUpdateTimestamp;
+    }
+
+    public void setLastUpdateTimestamp(long lastUpdateTimestamp) {
+        this.lastUpdateTimestamp = lastUpdateTimestamp;
+    }
+
+    public long getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(long statusId) {
+        this.statusId = statusId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -105,4 +138,5 @@ public class Person {
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }
