@@ -8,7 +8,9 @@ export function Login(): React.ReactElement {
 	const [twitterHandle, setTwitterHandle] = React.useState('');
 
 	const handleSubmit = () => {
-		authService.login(twitterHandle);
+		if (twitterHandle) {
+			authService.login(twitterHandle);
+		}
 	};
 
 	return (
@@ -24,7 +26,7 @@ export function Login(): React.ReactElement {
 				variant="outlined"
 			/>
 			<VerticalSpacer height={20}/>
-			<Button variant="contained" color="primary" onClick={handleSubmit}>Login</Button>
+			<Button variant="contained" color="primary" onClick={handleSubmit} disabled={!twitterHandle}>Login</Button>
 			<VerticalSpacer height={20}/>
 		</CenterCard>
 	);

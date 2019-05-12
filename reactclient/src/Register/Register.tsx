@@ -48,7 +48,7 @@ export function RegisterBase(props: RouterProps) {
 				/>))}
 			</div>
 			<VerticalSpacer height={keywords.length ? 0 : 20}/>
-			<Button variant="contained" color="primary" onClick={handleSubmit}>Send</Button>
+			<Button variant="contained" color="primary" onClick={handleSubmit} disabled={!handle}>Send</Button>
 			<VerticalSpacer height={20}/>
 	</CenterCard>
 	);
