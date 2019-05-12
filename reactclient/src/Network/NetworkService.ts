@@ -30,6 +30,7 @@ class NetworkService {
 			twitterHandle: createdUser.twitterHandle,
 			tokens: createdUser.userKeywords,
 			profilePicUrl: createdUser.imageUrl,
+			statusId: createdUser.statusId,
 		};
 	}
 
@@ -48,6 +49,7 @@ class NetworkService {
 			twitterHandle: user.twitterHandle,
 			tokens: user.userKeywords,
 			profilePicUrl: user.imageUrl,
+			statusId: user.statusId,
 		};
 	}
 
@@ -68,6 +70,7 @@ class NetworkService {
 				twitterHandle: user.twitterHandle,
 				tokens: user.userKeywords,
 				profilePicUrl: user.imageUrl,
+				statusId: user.statusId,
 			})),
 		};
 	}
@@ -89,6 +92,7 @@ class NetworkService {
 				twitterHandle: user.twitterHandle,
 				tokens: user.userKeywords,
 				profilePicUrl: user.imageUrl,
+				statusId: user.statusId,
 			})),
 		}));
 	}

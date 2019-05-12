@@ -4,4 +4,5 @@ export interface UserInterface {
 	twitterHandle: string;
 	tokens: string[];
 	profilePicUrl: string;
+	statusId: string;
 }

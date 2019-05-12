@@ -23,7 +23,7 @@ public class Person {
     private String imageUrl;
 
     @ColumnDefault("-1")
-    private long statusId;
+    private String statusId;
 
     @ColumnDefault("0")
     private long lastUpdateTimestamp;
@@ -117,11 +117,11 @@ public class Person {
         this.lastUpdateTimestamp = lastUpdateTimestamp;
     }
 
-    public long getStatusId() {
+    public String getStatusId() {
         return statusId;
     }
 
-    public void setStatusId(long statusId) {
+    public void setStatusId(String statusId) {
         this.statusId = statusId;
     }
 

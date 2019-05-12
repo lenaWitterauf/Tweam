@@ -162,7 +162,7 @@ public class UserMatcher {
                     person.setUserFollowings(new ArrayList<>(followingsReader.read(person.getTwitterHandle())));
                     Status status = userReader.read(person.getTwitterHandle()).getStatus();
                     if (status != null) {
-                        person.setStatusId(status.getId());
+                        person.setStatusId(String.valueOf(status.getId()));
                     }
                     person.setLastUpdateTimestamp(currentTimestamp);
                     return personRepository.saveAndFlush(person);

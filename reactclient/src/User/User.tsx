@@ -2,6 +2,7 @@ import * as React from 'react';
 import { UserInterface } from '../interfaces/User.interface';
 import { Typography, Link, Card, CardContent } from '@material-ui/core';
 import './User.scss';
+import TweetEmbed from "react-tweet-embed/dist/tweet-embed";
 
 const twitterProfileBaseUrl = 'https://twitter.com/';
 const cardClasses = {
@@ -20,6 +21,7 @@ export function User(user: UserInterface) {
 					<img src={user.profilePicUrl} alt="profile pic" />
 					<Typography>{user.name}</Typography>
 				</CardContent>
+				<TweetEmbed id={user.statusId} placeholder={'loading'}/>
 			</Card>
 		</Link>
 	);

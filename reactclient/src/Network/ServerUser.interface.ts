@@ -4,4 +4,5 @@ export interface ServerUser {
 	twitterHandle: string;
 	imageUrl: string;
 	userKeywords: string[];
+	statusId: string;
 }
