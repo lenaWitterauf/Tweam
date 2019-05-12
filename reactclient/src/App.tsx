@@ -80,6 +80,7 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean, error: s
 
 	private renderLoggedInMenu() {
 		return <>
+			<Link component={NavLink} href={`/team/${authService.currentTwitterHandle}`} color="inherit">My Team</Link>
 			<Link component={NavLink} href="/teams" color="inherit">Teams</Link>
 			<Link component={NavLink} onClick={() => authService.logout()} color="inherit">Logout</Link>
 		</>;

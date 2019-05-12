@@ -22,7 +22,7 @@ class AuthService {
 
 	get loggedIn() { return !!this.twitterHandle; }
 
-	get currentTwitterHandle() { return this.twitterHandle; }
+	get currentTwitterHandle(): string { return this.twitterHandle; }
 
 	registerListener(authListener: AuthListener): void {
 		this.authListeners.push(authListener);
