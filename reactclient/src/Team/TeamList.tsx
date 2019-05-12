@@ -16,7 +16,7 @@ export function TeamList(props: TeamListProps) {
 			if (newTeams) {
 				setTeams(newTeams as any);
 			}
-		})
+		});
 	}, [false]);
 
 	return (
