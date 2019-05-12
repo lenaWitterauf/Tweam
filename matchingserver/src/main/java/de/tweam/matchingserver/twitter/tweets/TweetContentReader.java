@@ -15,12 +15,12 @@ public class TweetContentReader {
     private TweetReader tweetReader;
 
     public List<String> readTweetContents(String twitterScreenName) throws TwitterException {
-        List<Status> tweets = tweetReader.read(twitterScreenName);
+        List<Status> tweets = tweetReader.readForScreenName(twitterScreenName);
         return tweets.stream().map(Status::getText).collect(Collectors.toList());
     }
 
     public List<String> readTweetContents(User user) throws TwitterException {
-        List<Status> tweets = tweetReader.read(user);
+        List<Status> tweets = tweetReader.readForUser(user);
         return tweets.stream().map(Status::getText).collect(Collectors.toList());
     }
 }
