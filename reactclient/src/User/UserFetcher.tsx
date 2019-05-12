@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { withRouter, RouterProps } from 'react-router';
-import { User } from './User';
-import { networkService } from '../Network/NetworkService';
+import { RouterProps } from 'react-router';
 import { UserInterface } from '../interfaces/User.interface';
+import { networkService } from '../Network/NetworkService';
+import { User } from './User';
 
 export function UserFetcher( props: RouterProps) {
     const [user, setUser] = React.useState<UserInterface>();

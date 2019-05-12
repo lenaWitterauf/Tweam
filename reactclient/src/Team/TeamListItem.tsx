@@ -1,21 +1,21 @@
+import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import * as React from 'react';
-import { Card, CardContent, Typography, ListItem, List } from '@material-ui/core';
 import { TeamInterface } from '../interfaces/Team.interface';
 import { User } from '../User/User';
 
 export function TeamListItem(team: TeamInterface) {
 	return (
-		<Card>
+		<Card style={{width: '100%'}}>
 			<CardContent>
 				<Typography variant="h5" component="h5">Team {team.id}</Typography>
 				<Typography>Members:</Typography>
-				<List>
+				<Grid container spacing={8}>
 					{team.members.map(user => (
-						<ListItem disableGutters key={`user-${user.id}`}>
+						<Grid item xs={12} sm={4} md={4} key={`user-${user.id}`}>
 							<User {...user}/>
-						</ListItem>
+						</Grid>
 					))}
-				</List>
+				</Grid>
 			</CardContent>
 		</Card>
 	);
