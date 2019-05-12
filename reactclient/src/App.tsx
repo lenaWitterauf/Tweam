@@ -1,12 +1,13 @@
 import { AppBar, Link, MuiThemeProvider, Paper, Toolbar } from '@material-ui/core';
 import React from 'react';
-import { BrowserRouter as Router, Link as RouteLink, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Link as RouteLink, Route, Switch } from 'react-router-dom';
 import { authService } from './Auth/AuthService';
 import { Login } from './Login/Login';
 import { Register } from './Register/Register';
 import { TeamList } from './Team/TeamList';
 import { darkTheme } from './themes/dark';
 import { UserFetcher } from './User/UserFetcher';
+import { About } from './About';
 
 const NavLink = (props: { href?: string }): React.ReactElement => <RouteLink to={props.href || ''} {...props} style={{paddingRight: 5, paddingLeft: 5}} />
 
@@ -37,11 +38,14 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 						</Toolbar>
 					</AppBar>
 
-					<Paper style={{background: '#777'}}>
-						<Route path="/teams" component={TeamList} />
-						<Route path="/user/:twitterHandle" component={UserFetcher} />
-					</Paper>
-					{!this.state.isLoggedIn && this.renderLoggedOutRoutes()}
+					<Switch>
+						{!this.state.isLoggedIn && this.renderLoggedOutRoutes()}
+						<Paper style={{background: '#777'}}>
+								<Route path="/teams" component={TeamList} />
+								<Route path="/user/:twitterHandle" component={UserFetcher} />
+								<Route component={About}/>
+						</Paper>
+					</Switch>
 				</MuiThemeProvider>
 			</Router>
 		);
