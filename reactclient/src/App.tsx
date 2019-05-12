@@ -9,14 +9,6 @@ import { TeamList } from './Team/TeamList';
 import { darkTheme } from './themes/dark';
 import { UserFetcher } from './User/UserFetcher';
 
-function Index() {
-	return <h2>Home</h2>;
-}
-
-function Users() {
-	return <h2>Users</h2>;
-}
-
 const MyLink = (props: { href?: string }): React.ReactElement => <RouteLink to={props.href || ''} {...props} />
 
 export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
@@ -53,9 +45,7 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 						</AppBar>
 
 						<Paper style={{background: '#777'}}>
-							<Route path="/" exact component={Index} />
 							<Route path="/teams" component={TeamList} />
-							<Route path="/team/:twitterHandle" component={Users} />
 							<Route path="/register" component={Register} />
 							<Route path="/user/:twitterHandle" component={UserFetcher} />
 						</Paper>
