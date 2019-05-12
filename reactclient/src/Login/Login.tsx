@@ -24,7 +24,7 @@ export function Login(): React.ReactElement {
 				variant="outlined"
 			/>
 			<VerticalSpacer height={20}/>
-			<Button variant="contained" color="primary" onSubmit={handleSubmit}>Login</Button>
+			<Button variant="contained" color="primary" onClick={handleSubmit}>Login</Button>
 			<VerticalSpacer height={20}/>
 		</CenterCard>
 	);

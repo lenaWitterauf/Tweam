@@ -3,6 +3,7 @@ import { RouterProps } from 'react-router';
 import { UserInterface } from '../interfaces/User.interface';
 import { networkService } from '../Network/NetworkService';
 import { User } from './User';
+import { DarkPaper } from '../DarkPaper';
 
 export function UserFetcher( props: RouterProps) {
     const [user, setUser] = React.useState<UserInterface>();
@@ -15,7 +16,8 @@ export function UserFetcher( props: RouterProps) {
             }
         });
 	}, [false]);
-    return user?(
-        <User {...user}/>
-    ):null;
+
+    return <DarkPaper>
+		{user ? <User {...user} /> : null}
+	</DarkPaper>;
 }

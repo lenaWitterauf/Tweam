@@ -47,7 +47,7 @@ export function RegisterBase(props: RouterProps) {
 					onDelete={(event) => setKeywords(keywords.filter((e) => e !== abc))}
 				/>))}
 			</div>
-			<VerticalSpacer height={20}/>
+			<VerticalSpacer height={keywords.length ? 0 : 20}/>
 			<Button variant="contained" color="primary" onClick={handleSubmit}>Send</Button>
 			<VerticalSpacer height={20}/>
 	</CenterCard>

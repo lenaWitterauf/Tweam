@@ -39,12 +39,10 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 					</AppBar>
 
 					<Switch>
+						<Route path="/teams" component={TeamList} />
+						<Route path="/user/:twitterHandle" component={UserFetcher} />
 						{!this.state.isLoggedIn && this.renderLoggedOutRoutes()}
-						<Paper style={{background: '#777'}}>
-								<Route path="/teams" component={TeamList} />
-								<Route path="/user/:twitterHandle" component={UserFetcher} />
-								<Route component={About}/>
-						</Paper>
+						<Route component={About}/>
 					</Switch>
 				</MuiThemeProvider>
 			</Router>
@@ -69,6 +67,9 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 	}
 
 	private renderLoggedInMenu() {
-		return <Link component={NavLink} href="/teams" color="inherit">Teams</Link>;
+		return <>
+			<Link component={NavLink} href="/teams" color="inherit">Teams</Link>
+			<Link component={NavLink} onClick={() => authService.logout()} color="inherit">Logout</Link>
+		</>;
 	}
 }

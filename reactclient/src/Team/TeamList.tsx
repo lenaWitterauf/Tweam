@@ -4,12 +4,9 @@ import { TeamInterface } from '../interfaces/Team.interface';
 import { networkService } from '../Network/NetworkService';
 import './Team.scss';
 import { TeamListItem } from './TeamListItem';
+import { DarkPaper } from '../DarkPaper';
 
-export interface TeamListProps {
-	teams: TeamInterface[];
-}
-
-export function TeamList(props: TeamListProps) {
+export function TeamList() {
 	const [teams, setTeams] = React.useState<TeamInterface[]>([]);
 
 	React.useEffect(() => {
@@ -21,12 +18,14 @@ export function TeamList(props: TeamListProps) {
 	}, [false]);
 
 	return (
-		<List>
-			{teams.map((team, index) => (
-				<ListItem classes={{ root: 'ListItem' }}>
-					<TeamListItem {...team}/>
-				</ListItem>
-			))}
-		</List>
+		<DarkPaper>
+			<List>
+				{teams.map((team, index) => (
+					<ListItem classes={{ root: 'ListItem' }}>
+						<TeamListItem {...team}/>
+					</ListItem>
+				))}
+			</List>
+		</DarkPaper>
 	);
 }
