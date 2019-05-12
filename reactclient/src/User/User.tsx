@@ -15,13 +15,18 @@ const linkClasses = {
 export function User(user: UserInterface) {
 	const profileUrl = `${twitterProfileBaseUrl}${user.twitterHandle}`;
 	return (
-		<Link href={profileUrl} classes={linkClasses} target="_blank">
+		<Link href={profileUrl} classes={linkClasses} underline="none" target="_blank">
 			<Card>
 				<CardContent classes={cardClasses}>
 					<img src={user.profilePicUrl} alt="profile pic" />
-					<Typography>{user.name}</Typography>
+					<div className="userdata">
+						<Typography>{user.name} </Typography>
+						<Typography ><i>{user.tokens}</i></Typography>
+					</div>
 				</CardContent>
+				<div className="tweet">
 				<TweetEmbed id={user.statusId} placeholder={'loading'}/>
+				</div>
 			</Card>
 		</Link>
 	);

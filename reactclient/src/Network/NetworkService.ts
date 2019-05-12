@@ -28,7 +28,7 @@ class NetworkService {
 			id: createdUser.id,
 			name: createdUser.userName,
 			twitterHandle: createdUser.twitterHandle,
-			tokens: createdUser.userKeywords,
+			tokens: createdUser.userKeywords.join(", "),
 			profilePicUrl: createdUser.imageUrl,
 			statusId: createdUser.statusId,
 		};
@@ -47,7 +47,7 @@ class NetworkService {
 			id: user.id,
 			name: user.userName,
 			twitterHandle: user.twitterHandle,
-			tokens: user.userKeywords,
+			tokens: user.userKeywords.join(", "),
 			profilePicUrl: user.imageUrl,
 			statusId: user.statusId,
 		};
@@ -68,7 +68,7 @@ class NetworkService {
 				id: user.id,
 				name: user.userName,
 				twitterHandle: user.twitterHandle,
-				tokens: user.userKeywords,
+				tokens: user.userKeywords.join(", "),
 				profilePicUrl: user.imageUrl,
 				statusId: user.statusId,
 			})),
@@ -90,8 +90,8 @@ class NetworkService {
 				id: user.id,
 				name: user.userName,
 				twitterHandle: user.twitterHandle,
-				tokens: user.userKeywords,
 				profilePicUrl: user.imageUrl,
+				tokens: user.userKeywords.join(", "),
 				statusId: user.statusId,
 			})),
 		}));

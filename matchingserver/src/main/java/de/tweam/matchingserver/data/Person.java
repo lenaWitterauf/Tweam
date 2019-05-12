@@ -31,7 +31,6 @@ public class Person {
     @ElementCollection
     @CollectionTable(name="userKeywords", joinColumns=@JoinColumn(name="id"))
     @Column(name = "userKeywords", columnDefinition = "TEXT")
-    @JsonIgnore
     private List<String> userKeywords;
 
 
@@ -71,6 +70,9 @@ public class Person {
     }
 
     public List<String> getUserKeywords() {
+        if(userKeywords == null){
+            userKeywords = new ArrayList<>();
+        }
         return userKeywords;
     }
 

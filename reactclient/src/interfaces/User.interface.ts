@@ -2,7 +2,7 @@ export interface UserInterface {
 	id: number;
 	name: string;
 	twitterHandle: string;
-	tokens: string[];
+	tokens: string;
 	profilePicUrl: string;
 	statusId: string;
 }

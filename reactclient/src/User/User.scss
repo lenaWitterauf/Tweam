@@ -10,7 +10,19 @@
 		margin-right: 10px;
 	}
 }
+.userdata{
+	display: flex;
+	flex-direction: column;
+	text-decoration: none !important;
+}
 
 .fullWidth {
 	width: 100%;
+}
+
+.token{
+	max-width: 90%;
+}
+.tweet{
+	margin: 0 5px 5px 5px;
 }
