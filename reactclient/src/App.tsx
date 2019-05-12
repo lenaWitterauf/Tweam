@@ -58,12 +58,6 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 							<Route path="/teams" component={TeamList} />
 							<Route path="/team/:twitterHandle" component={Users} />
 							<Route path="/register"  component={Register} />
-							<Button onClick={() => {
-								networkService.createUser({
-									twitterHandle: 'foo',
-									tokens: ['foo', 'bar'],
-								})
-							}}>Register</Button>
 						</Paper>
 					</MuiThemeProvider>
 				</Router>
