@@ -5,7 +5,7 @@ import { Typography, TextField, List, ListItem, Button, Chip} from '@material-ui
 
 export const Register = withRouter(RegisterBase);
 
-function RegisterBase(props: RouterProps) {
+export function RegisterBase(props: RouterProps) {
     const [handle, setHandle] = React.useState("");
     const [keywords, setKeywords] = React.useState<string[]>([]);
     const [text, setText] = React.useState<string>("");
