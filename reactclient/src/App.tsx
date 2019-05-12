@@ -8,6 +8,7 @@ import { networkService } from './Network/NetworkService';
 import { Register } from './Register/Register';
 import { TeamList } from './Team/TeamList';
 import { darkTheme } from './themes/dark';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 
 function Index() {
   return <h2>Home</h2>;

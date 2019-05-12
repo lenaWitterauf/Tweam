@@ -3,6 +3,12 @@ import { Card, CardContent, Typography, ListItem, List } from '@material-ui/core
 import { TeamInterface } from '../interfaces/Team.interface';
 import { User } from '../User/User';
 
+const cardClasses = {
+	root: {
+		width: 300,
+	}
+};
+
 export function TeamListItem(team: TeamInterface) {
 	return (
 		<Card>

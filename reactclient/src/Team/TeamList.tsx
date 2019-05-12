@@ -3,6 +3,7 @@ import * as React from 'react';
 import { TeamInterface } from '../interfaces/Team.interface';
 import { networkService } from '../Network/NetworkService';
 import { TeamListItem } from './TeamListItem';
+import { CarouselProvider, Slider, Slide } from 'pure-react-carousel';
 
 export interface TeamListProps {
 	teams: TeamInterface[];
@@ -20,12 +21,16 @@ export function TeamList(props: TeamListProps) {
 	}, [false]);
 
 	return (
-		<List>
-			{teams.map(team => (
-				<ListItem key={`team-${team.id}`}>
-					<TeamListItem {...team}/>
-				</ListItem>
-			))}
-		</List>
+		<CarouselProvider totalSlides={teams.length} naturalSlideHeight={1} naturalSlideWidth={1}>
+			<Slider>
+				{teams.map((team, index) => (
+					<Slide index={index} key={`team-${team.id}`}>
+						<div style={{ display: 'flex', justifyContent: 'center' }}>
+							<TeamListItem {...team}/>
+						</div>
+					</Slide>
+				))}
+			</Slider>
+		</CarouselProvider>
 	);
 }
