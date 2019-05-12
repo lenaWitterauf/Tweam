@@ -14,6 +14,7 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String userName;
 
     @Column(unique = true)
@@ -46,8 +47,6 @@ public class Person {
     @Column(name = "userFollowings")
     @JsonIgnore
     private List<Long> userFollowings;
-
-
 
 
     public Person() {

@@ -17,14 +17,19 @@ public class TweetReader {
         this.twitterProvider = twitterProvider;
     }
 
-    public List<Status> read(User user) throws TwitterException {
-        return read(user.getScreenName());
+    public List<Status> readForUser(User user) throws TwitterException {
+        return readForScreenName(user.getScreenName());
     }
 
-    public List<Status> read(String twitterScreenName) throws TwitterException {
-        Twitter twitter = twitterProvider.getTwitterInstance();
+    public List<Status> readForScreenName(String twitterScreenName) throws TwitterException {
         Query query = new Query();
         query.setQuery("from:" + twitterScreenName);
+
+        return read(query);
+    }
+
+    private List<Status> read(Query query) throws TwitterException {
+        Twitter twitter = twitterProvider.getTwitterInstance();
 
         List<Status> allTweets = new ArrayList<>();
         QueryResult result;
@@ -34,5 +39,12 @@ public class TweetReader {
         } while ((query = result.nextQuery()) != null);
 
         return allTweets;
+    }
+
+    public List<Status> readForHashtag(String hashtag) throws TwitterException {
+        Query query = new Query();
+        query.setQuery("#" + hashtag);
+
+        return read(query);
     }
 }

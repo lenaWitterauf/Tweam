@@ -4,6 +4,7 @@ package de.tweam.matchingserver.api;
 import de.tweam.matchingserver.api.ApiExceptionHandler.ApiException;
 import de.tweam.matchingserver.data.*;
 import de.tweam.matchingserver.matching.UserMatcher;
+import de.tweam.matchingserver.twitter.bot.BotManagement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import twitter4j.TwitterException;
@@ -17,13 +18,15 @@ public class DataController {
     private final PersonRepository personRepository;
     private final UserDataService userDataService;
     private final UserMatcher userMatcher;
+    private final BotManagement botManagement;
 
     @Autowired
-    public DataController(TeamRepository teamRepository, PersonRepository personRepository, UserDataService userDataService, UserMatcher userMatcher) {
+    public DataController(TeamRepository teamRepository, PersonRepository personRepository, UserDataService userDataService, UserMatcher userMatcher, BotManagement botManagement) {
         this.teamRepository = teamRepository;
         this.personRepository = personRepository;
         this.userDataService = userDataService;
         this.userMatcher = userMatcher;
+        this.botManagement = botManagement;
     }
 
     @GetMapping("/team/all")
@@ -71,8 +74,9 @@ public class DataController {
     }
 
     @RequestMapping(path = "/remap")
-    public void remap(@RequestParam(defaultValue = "3", name = "size") int size) {
+    public void remap(@RequestParam(defaultValue = "3", name = "size") int size) throws TwitterException {
         teamRepository.deleteAll();
-        userMatcher.calculateTeams(personRepository.findAll(), size);
+        List<Team> teams = userMatcher.calculateTeams(personRepository.findAll(), size);
+        botManagement.communicateMatching(teams);
     }
 }
