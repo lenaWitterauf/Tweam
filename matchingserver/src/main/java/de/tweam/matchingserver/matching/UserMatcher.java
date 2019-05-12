@@ -56,6 +56,13 @@ public class UserMatcher {
         while (teamsPerPerson.size() < arrayPersonsToMatch.size()) {
             Pair<Integer, Integer> nextUserPairIndex = findNextLowestMaxUserIndex(matching);
             if (nextUserPairIndex.getKey() == -1 || nextUserPairIndex.getValue() == -1) {
+                if (teamsCreated < numberOfTeams) {
+                    Team team = teamRepository.saveAndFlush(new Team(new ArrayList<>()));
+                    arrayPersonsToMatch.removeAll(teamsPerPerson.keySet());
+                    team.getTeamPeople().add(arrayPersonsToMatch.get(0));
+                    teamsPerPerson.put(arrayPersonsToMatch.get(0), team);
+                    teamsCreated++;
+                }
                 break;
             }
 
