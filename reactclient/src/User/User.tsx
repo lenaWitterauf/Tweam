@@ -20,7 +20,7 @@ export function User(user: UserInterface) {
 				<CardContent classes={cardClasses}>
 					<img src={user.profilePicUrl} alt="profile pic" />
 					<div className="userdata">
-						<Typography>{user.name} </Typography>
+						<Typography>{"@" +user.name} </Typography>
 						<Typography ><i>{user.tokens}</i></Typography>
 					</div>
 				</CardContent>
