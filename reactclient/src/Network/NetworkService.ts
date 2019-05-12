@@ -53,7 +53,7 @@ class NetworkService {
 		};
 	}
 
-	async getTeamForUser(user: User): Promise<TeamInterface | undefined> {
+	async getTeamForUser(user: UserInterface): Promise<TeamInterface | undefined> {
 		const response = await this.get(`/team/${user.twitterHandle}`);
 
 		if (!response || !response.ok) {
