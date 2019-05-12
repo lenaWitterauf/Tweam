@@ -4,6 +4,7 @@ import React from 'react';
 import { BrowserRouter as Router, Link as RouteLink, Route } from 'react-router-dom';
 import { AuthProvider } from './Auth/AuthContext';
 import { AuthService } from './Auth/AuthService';
+import {User} from './User/User'
 import { networkService } from './Network/NetworkService';
 import { Register } from './Register/Register';
 import { TeamList } from './Team/TeamList';
@@ -58,6 +59,7 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean }> {
 							<Route path="/teams" component={TeamList} />
 							<Route path="/team/:twitterHandle" component={Users} />
 							<Route path="/register"  component={Register} />
+                            <Route path="/user/:twitterHandle" component={User}/>
 						</Paper>
 					</MuiThemeProvider>
 				</Router>
