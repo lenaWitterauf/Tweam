@@ -11,6 +11,7 @@ import { About } from './About';
 import { errorService } from './ErrorService';
 import { ErrorSnackbar } from './Network/ErrorSnackbar';
 import {TeamDetail} from "./Team/TeamDetail";
+import {Management} from "./Management/Management";
 
 const NavLink = (props: { href?: string }): React.ReactElement => <RouteLink to={props.href || ''} {...props} style={{paddingRight: 5, paddingLeft: 5}} />
 
@@ -51,6 +52,7 @@ export class App extends React.PureComponent<{}, { isLoggedIn: boolean, error: s
 						<Route path="/teams" component={TeamList} />
 						<Route path="/user/:twitterHandle" component={UserFetcher} />
 						<Route path="/team/:teamId" component={TeamDetail} />
+                        <Route path="/management" component={Management}/>
 						{!this.state.isLoggedIn && this.renderLoggedOutRoutes()}
 						<Route component={About}/>
 					</Switch>

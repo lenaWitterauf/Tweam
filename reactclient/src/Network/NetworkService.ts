@@ -98,7 +98,7 @@ class NetworkService {
 	}
 
 	async updateMatches(): Promise<boolean> {
-		const response = await this.put('/remap', {});
+		const response = await this.post('/remap', {});
 		
 		if (!response || !response.ok) {
 			this.handleBusinessError(response);

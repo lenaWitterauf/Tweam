@@ -7,6 +7,8 @@ import de.tweam.matchingserver.data.Team;
 import de.tweam.matchingserver.twitter.TwitterProvider;
 import de.tweam.matchingserver.twitter.tweets.TweetReader;
 import de.tweam.matchingserver.twitter.user.UserReader;
+import org.apache.juli.logging.Log;
+import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import twitter4j.TwitterException;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class BotManagement {
+    private static final Log logger = LogFactory.getLog(BotManagement.class);
     private static final String teamSuccessText = "Hey! You are a team :-) ";
 
     private final BotDataRepository botDataRepository;
@@ -59,7 +62,7 @@ public class BotManagement {
         scheduler.awaitTermination(10, TimeUnit.SECONDS);
     }
 
-    public void communicateMatching(List<Team> matchedTeams) throws TwitterException {
+    public void communicateMatching(List<Team> matchedTeams) {
         BotData botData = botDataRepository.findAll().get(0);
 
         for (Team team : matchedTeams) {
@@ -72,7 +75,11 @@ public class BotManagement {
             }
 
             String personLinkText = personsConnected.stream().map(person -> " @" + person.getTwitterHandle()).collect(Collectors.joining());
-            twitterProvider.getTwitterInstance().updateStatus(teamSuccessText + personLinkText);
+            try {
+                twitterProvider.getTwitterInstance().updateStatus(teamSuccessText + personLinkText);
+            } catch (TwitterException exception) {
+                logger.error("Error sending tweet for users " + personLinkText, exception);
+            }
         }
     }
 }
