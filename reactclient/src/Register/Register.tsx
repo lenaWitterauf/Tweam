@@ -1,7 +1,10 @@
-import { Button, Card, Chip, TextField, Typography } from '@material-ui/core';
+import { Button, Chip, TextField, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { RouterProps, withRouter } from 'react-router';
+import { CenterCard } from '../CenterCard';
 import { networkService } from '../Network/NetworkService';
+import { VerticalSpacer } from '../Spacer';
+import './Register.scss';
 
 export const Register = withRouter(RegisterBase);
 
@@ -18,21 +21,15 @@ export function RegisterBase(props: RouterProps) {
 	};
 
 	return (
-		<Card>
-			<Typography variant="h3" component="h3">Registration</Typography>
+		<CenterCard>
+			<VerticalSpacer height={20}/>
+			<Typography variant="h4" component="h3" style={{textAlign: 'center'}}>Registration</Typography>
 			<SubmitInput
-				label="Twitter-Handle"
+				label="Twitter Handle"
 				setText={setHandle}
 				onSubmit={handleSubmit}
 				text={handle}
 			/>
-			<Typography variant="body1">Keywords</Typography>
-			<div className="keywords">
-				{keywords.map((abc) => (<Chip
-					label={abc}
-					onDelete={(event) => setKeywords(keywords.filter((e) => e !== abc))}
-				/>))}
-			</div>
 			<SubmitInput
 				onSubmit={() => {
 					const newKeywords: string[] = [...keywords];
@@ -44,8 +41,16 @@ export function RegisterBase(props: RouterProps) {
 				setText={setText}
 				label="Keywords"
 			/>
+			<div className="keywords">
+				{keywords.map((abc) => (<Chip
+					label={abc}
+					onDelete={(event) => setKeywords(keywords.filter((e) => e !== abc))}
+				/>))}
+			</div>
+			<VerticalSpacer height={20}/>
 			<Button variant="contained" color="primary" onClick={handleSubmit}>Send</Button>
-	</Card>
+			<VerticalSpacer height={20}/>
+	</CenterCard>
 	);
 }
 
@@ -65,6 +70,7 @@ function SubmitInput(props: {label: string, text: string, setText: (text: string
 			margin="normal"
 			variant="outlined"
 			onSubmit={props.onSubmit}
+			style={{width: '100%'}}
 		/>
 	</form>;
 }

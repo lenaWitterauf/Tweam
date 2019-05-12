@@ -1,5 +1,14 @@
 .keywords{
     flex-direction: row;
-    display: flex;
-    
+    //display: flex;
+	overflow: scroll;
+    max-width: 100%;
+    align-self: center;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 50%;
+}
+
+.Form100PC {
+	width: 100%;
 }
