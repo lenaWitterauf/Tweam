@@ -26,7 +26,7 @@ public class UserDataService {
 
     public Person createUser(String handle, List<String> keywords) throws TwitterException {
         User read = twitterUserProvider.read(handle);
-        Person person = new Person(read.getName(),handle, read.get400x400ProfileImageURL(), keywords);
+        Person person = new Person(read.getName(),handle, read.get400x400ProfileImageURL(), "-1", keywords);
         personRepository.saveAndFlush(person);
         return person;
     }

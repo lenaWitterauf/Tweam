@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Component
 public class UserMatcher {
     private static final Logger logger = LoggerFactory.getLogger(UserMatcher.class);
-    private static final long updateIntervalMillis = 1000 * 60 * 60 * 2;
+    private static final long updateIntervalMillis = 1000 * 60 * 60 * 24;
 
     private final PersonScorer personScorer;
     private final TeamRepository teamRepository;

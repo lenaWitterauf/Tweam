@@ -3,13 +3,15 @@ import * as React from 'react';
 import { authService } from '../Auth/AuthService';
 import { CenterCard } from '../CenterCard';
 import { VerticalSpacer } from '../Spacer';
+import {RouterProps} from "react-router";
 
-export function Login(): React.ReactElement {
+export function Login(props: RouterProps): React.ReactElement {
 	const [twitterHandle, setTwitterHandle] = React.useState('');
 
 	const handleSubmit = () => {
 		if (twitterHandle) {
 			authService.login(twitterHandle);
+			props.history.push(`/team/${twitterHandle}`);
 		}
 	};
 

@@ -2,6 +2,7 @@ package de.tweam.matchingserver.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -52,11 +53,12 @@ public class Person {
         userKeywords = new ArrayList<>();
     }
 
-    public Person(String name, String twitterHandle, String imageUrl, List<String> userKeyWords) {
+    public Person(String name, String twitterHandle, String imageUrl, String statusId, List<String> userKeyWords) {
         this.userName = name;
         this.twitterHandle = twitterHandle;
         this.imageUrl = imageUrl;
         this.userKeywords = userKeyWords;
+        this.statusId = statusId;
         this.userTweets = new ArrayList<>();
         this.userFollowings = new ArrayList<>();
     }
